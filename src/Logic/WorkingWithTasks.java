@@ -3,45 +3,41 @@ package Logic;
 import Data.DataFile;
 import Data.Task;
 import Data.Task.AccessTimeComparator;
+import Data.Task.DeliverTimeComparator;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.PriorityQueue;
 
 public class WorkingWithTasks {
 
-    public static void sortTasks (DataFile df)    //funkcja sluzaca do sortowania obiektow Task  listy allTasks obiektu DataFile
+    public static int Cmax(DataFile df)
     {
-        List<Task> newQueue = new ArrayList<Task>(df.getAllTasks());    //funkcja tworzy nowa liste i przypisuje do niej oryginalna liste z obiektu DataFile
-        Collections.sort(newQueue, new AccessTimeComparator());    //dzieki przeciazonej funkcij compare, w latwy sposob sortujemy dane z listy, dzieki funkcij sort
-        df.setAllTasks(newQueue);    //przypisujemy do starej oryginalne listy, liste posortowana przez funkcje sort
-    }
-
-    public static int Cmax(DataFile df)    //funkcja znajdujaca CMAX na posortowanych już zadaniach
-    {
+        int t = 0;
+        int k = 0;
         int Cmax = 0;
-        for (int i = 0; i < df.getNumberOfTasks(); i++)    //funkcja for, przebiegajace przez wszystkie Task danej listy obiektu DataFile
+        PriorityQueue<Task> G = new PriorityQueue<>(df.getNumberOfTasks(), new DeliverTimeComparator()); //kolejka o priorytecie delivertime
+        PriorityQueue<Task> N = new PriorityQueue<>(df.getNumberOfTasks(), new AccessTimeComparator()); //kolejka o priorytecie accestime
+        for (int i = 0; i < df.getNumberOfTasks(); i++) //wypelnienie kolejki N zadaniami z pliku
         {
-            Cmax = Math.max(df.getOneTask(i).getAccessTime(), Cmax) + df.getOneTask(i).getOperatingTime();
-        }                       //CMAX = liczba wieksza z (czas dostepnosci i cmax) plus czas wykonania danego zadania
-        return Cmax;
+            N.add(df.getOneTask(i));
+        }
+//////////////ALGORYTM SCHRAGE'A///////////////////////////
+        while (G.size() != 0 || N.size() != 0)
+        { //jesli rozmiar G i N nie równa się 0 to
+            while (N.size() != 0 && N.peek().getAccessTime() <= t) //jesli rozmiar N nie rowna sie 0 i AT obiektu z kolejki N jest mniejszy rowny t, to
+            {
+                G.add(N.poll()); //pobierz obiekt z kolejki n i dodaj do kolejki G
+            }
+            if (G.size() == 0) {  //kiedy rozmiar G jest 0, to
+                t = N.peek().getAccessTime();   // t rowna sie AT pobrany z obiektu kolejki N
+            } else {   //kiedy rozmiar G nie jest 0, to
+                Task task = G.poll();   //pobierz do task obiekt z kolejki G
+                k++; //zwieksz k o 1
+                t = t + task.getOperatingTime();  // i t = t plus OT z obiektu task (utworonego wyzej)
+                Cmax = Math.max(Cmax, t + task.getDeliverTime());  //Cmax rowna sie liczba wieksza z cmax, albo t plus DT z obiektu task
+            }
+        }
+        return Cmax;   //zwroc cmax
     }
-
-        //STARE ROZWIAZANIE, TETZ DOBRE, ALE, TO TO NA GÓRZE TO JEST ALGORYTM JACKSONA
-//        int cmax = 0;    //inicjalizacja cmax, na poczatku 0
-//
-//        for (int i = 0; i < df.getNumberOfTasks(); i++)    //funkcja for, przebiegajace przez wszystkie Task danej listy obiektu DataFile
-//        {
-//            if (cmax < df.getOneTask(i).getAccessTime())   //jesli cmax mniejsze od czasu dostepnosci zadania numer i, to
-//            {
-//                cmax = df.getOneTask(i).getAccessTime()  + df.getOneTask(i).getOperatingTime();   //cmax = czas dostepnosci + czas wykonania zadania i
-//            }
-//            else    //jesli cmax nie mniejsze, to
-//            {
-//                cmax = cmax + df.getOneTask(i).getOperatingTime();  //cmax = cmax + czas wykonania zadania nr i
-//            }
-//        }
-//        return cmax;
-
 }
+

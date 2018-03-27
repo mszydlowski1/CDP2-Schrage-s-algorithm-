@@ -29,15 +29,6 @@ public class DataFile {
         this.numberOfTasks = numberOfTasks;
     }
 
-    public List<Task> getAllTasks ()
-    {
-        return allTasks;
-    }
-    public void setAllTasks (List<Task> t)
-    {
-        allTasks = t;
-    }
-
     public Task getOneTask (int i)
     {
         return allTasks.get(i);
@@ -57,7 +48,4 @@ public class DataFile {
         }
         return haveToReturn.toString();
     }
-
-
-
 }

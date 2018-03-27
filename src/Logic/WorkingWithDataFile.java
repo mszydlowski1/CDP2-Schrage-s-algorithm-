@@ -23,7 +23,8 @@ public class WorkingWithDataFile {
             {
                 int accessTime = input.nextInt();    //aplikacja czyta termin dostepnosci
                 int operatingTime = input.nextInt();    //aplikacja czyta czas obslugi zadania
-                Task t = new Task (accessTime, operatingTime);    //aplikacja tworzy nowe zadania (to zczytane z pliku)
+                int deliverTime = input.nextInt();    //aplikacja czyta czas dostarczenia zadania
+                Task t = new Task (accessTime, operatingTime, deliverTime);    //aplikacja tworzy nowe zadania (to zczytane z pliku)
                 df.setOneTask(t);    //aplikacja dodaje zadanie do listy obiektu df
             }
         } catch (FileNotFoundException ex)    //obsluga wyjatku, który polega na nie znalezieniu ppliku o nazwie zadanej przez uczytkownika
