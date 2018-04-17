@@ -38,7 +38,7 @@ public class DataFile {
         allTasks.add(t);
     }
 
-    public String toString()    //przeciążenie funkcij toString, w celu wyświetlania danych
+    public String toString()    //nadpisanie funkcij toString, w celu wyświetlania danych
     {
         StringBuilder haveToReturn = new StringBuilder();
         haveToReturn.append(numberOfTasks + "\n");

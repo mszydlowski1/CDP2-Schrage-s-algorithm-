@@ -22,6 +22,16 @@ public class Task {
         return deliverTime;
     }
 
+    public void setOperatingTime (int operatingTime)
+    {
+        this.operatingTime = operatingTime;
+    }
+
+    public void setDeliverTime (int deliverTime)
+    {
+        this.deliverTime = deliverTime;
+    }
+
     public Task (int acesTime, int serviceTime, int deliverTime)
     {
         this.accessTime = acesTime;
@@ -30,7 +40,7 @@ public class Task {
     }
 
 
-    public String toString()    //przeciążenie funkcij toString, w celu wyświetlania danych
+    public String toString()    //nadpisanie funkcij toString, w celu wyświetlania danych
     {
         StringBuilder haveToReturn = new StringBuilder();
         haveToReturn.append(accessTime);
@@ -40,7 +50,6 @@ public class Task {
         haveToReturn.append(deliverTime);
         haveToReturn.append("\n");
         return haveToReturn.toString();
-
     }
 
 
