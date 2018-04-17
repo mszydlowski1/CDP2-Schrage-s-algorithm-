@@ -28,7 +28,8 @@ public class WorkingWithTasks {
         { //jesli rozmiar G i N nie równa się 0 to
             while (N.size() != 0 && N.peek().getAccessTime() <= t) //jesli rozmiar N nie rowna sie 0 i AT obiektu z kolejki N jest mniejszy rowny t, to
             {
-                G.add(N.poll()); //pobierz obiekt z kolejki n i dodaj do kolejki G
+                task = N.poll();
+                G.add(task); //pobierz obiekt z kolejki n i dodaj do kolejki G
 
                 if (task.getDeliverTime() > l.getDeliverTime())
                 {
